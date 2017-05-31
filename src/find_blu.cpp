@@ -11,31 +11,6 @@
 #include <visualization_msgs/Marker.h>
 
 ros::Publisher pub;
-
-int getCol(int r, int g, int b){
-	int lab;
-	if(r*0.5>g && r*0.5>b){
-		//RED OBJECT
-		lab=1;
-	}else if(g*0.8>r && g*0.8>b){
-		//GREEN OBJECT
-		lab=2;
-	}else if(b*0.6>r && b*0.6>g){
-		//BLUE OBJECT
-		lab=3;
-	/*}else if(r*0.5>b && g*0.5>b){
-		//YELLOW OBJECT
-		lab=4;*/
-	}else if(r<10 && g<10 && b<10){
-		//BLACK OBJECT
-		lab=0;
-	}else{
-		lab=-1;
-	}
-	return lab;
-}
-
-
 void callback(const pcl::PCLPointCloud2ConstPtr& cloud_blob) {
   pcl::PCLPointCloud2::Ptr cloud_filtered_blob (new pcl::PCLPointCloud2);
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_filtered (new pcl::PointCloud<pcl::PointXYZRGB>);
