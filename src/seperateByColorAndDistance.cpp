@@ -45,24 +45,34 @@ int getCol(int r, int g, int b){
 		h *= 60;
 		if (h < 0.0)h = h + 360;
 	}
-	
-	
-	if(v<50){
+	s*=100;
+	v/=2.55;
+	double blackSep1=28.0-s*(16.0/100.0);
+	double blackSep2=57.0-s*(57.0/14.0);
+	double whiteSep1=100-(s-8.0)*(65.0/19.0);
+	double whiteSep2=0+(s-19.0)*(35.0/8.0);
+	if((v<=blackSep1) || (v<=blackSep2)){
 		//BLACK OBJECT
 		lab=0;
-	}else if(h>335 || h<15){
+	}
+	else if(v<=whiteSep1 && v>=whiteSep2){
+		//WHITE, CLASSIFIED AS OBJECT
+		lab=-1;
+	}
+	else if(h>330 || h<16){
 		//RED OBJECT
 		lab=1;
-	}else if(h>85 && h<150){
+	}else if(h>73 && h<154){
 		//GREEN OBJECT
 		lab=2;
-	}else if(h>205 && h<265){
+	}else if(h>189 && h<265){
 		//BLUE OBJECT
 		lab=3;
-	}else if(h>37 && h<74){
+	}else if(h>45 && h<65){
 		//YELLOW OBJECT
 		lab=4;
 	}else{
+		//UNDEFINED OBJECT
 		lab=-1;
 	}
 	return lab;
