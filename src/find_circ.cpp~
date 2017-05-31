@@ -38,7 +38,7 @@ void callback(const pcl::PCLPointCloud2ConstPtr& cloud_blob) {
 	seg.setMethodType (pcl::SAC_RANSAC);
 	seg.setMaxIterations (1000);
 	seg.setDistanceThreshold (0.02);
-	seg.setRadiusLimits(radMin[thisNode], radMax[thisNode]);
+	seg.setRadiusLimits(0.04,0.1);
 	seg.setInputCloud (cloud_filtered);
 
 	seg.segment(*inliers, *coefficients);
