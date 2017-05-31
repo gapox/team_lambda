@@ -67,6 +67,7 @@ catkin_package(
 
 add_executable (find_circ src/find_circ.cpp)
 add_executable (find_cyl src/find_cyl.cpp)
+add_executable (contraster src/contraster.cpp)
 #add_executable (find_grn src/find_grn.cpp)
 #add_executable (find_blu src/find_blu.cpp)
 add_executable (seperate src/seperateByColorAndDistance.cpp)
