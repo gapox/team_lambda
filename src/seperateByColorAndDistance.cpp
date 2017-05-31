@@ -16,24 +16,52 @@ ros::Publisher pubB;
 ros::Publisher pubY;
 ros::Publisher pubK;
 
+
+double Min(double a, double b) {
+	return a <= b ? a : b;
+}
+
+double Max(double a, double b) {
+	return a >= b ? a : b;
+}
+
+
 int getCol(int r, int g, int b){
 	int lab;
-	if(r*0.5>g && r*0.5>b){
-		//RED OBJECT
-		lab=1;
-	}else if(g*0.8>r && g*0.8>b){
-		//GREEN OBJECT
-		lab=2;
-	}else if(b*0.6>r && b*0.6>g){
-		//BLUE OBJECT
-		lab=3;
-	}else if(r*0.5>b && g*0.5>b){
-		//YELLOW OBJECT
-		lab=4;
-		
-	}else if(r<10 && g<10 && b<10){
+	double delta, min;
+	double h = 0, s, v;
+
+	min = Min(Min(r,g), b);
+	v = Max(Max(r,g), b);
+	delta = v - min;
+	if (v == 0.0)s = 0;
+	else s = delta / v;
+
+	if (s == 0)h = 0.0;
+	else{
+		if (r == v) h = (g - b) / delta;
+		else if (g == v) h = 2 + (b - r) / delta;
+		else if (b == v) h = 4 + (r-g) / delta;
+		h *= 60;
+		if (h < 0.0)h = h + 360;
+	}
+	
+	
+	if(v<50){
 		//BLACK OBJECT
 		lab=0;
+	}else if(h>335 || h<15){
+		//RED OBJECT
+		lab=1;
+	}else if(h>85 && h<150){
+		//GREEN OBJECT
+		lab=2;
+	}else if(h>205 && h<265){
+		//BLUE OBJECT
+		lab=3;
+	}else if(h>37 && h<74){
+		//YELLOW OBJECT
+		lab=4;
 	}else{
 		lab=-1;
 	}

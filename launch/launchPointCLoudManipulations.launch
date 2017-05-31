@@ -16,7 +16,11 @@
         <remap from="output" to="/exercise6/voxelgrid"/>
 
     </node>
-    
+     <node pkg="exercise6" type="contraster" name="contraster" output="screen">
+
+        <remap from="input" to="/exercise6/voxelgrid"/>
+
+	</node>     
 
     <node pkg="exercise6" type="find_circ" name="find_blu" args="blue" output="screen">
 
@@ -43,7 +47,7 @@
 
     </node>	<node pkg="exercise6" type="seperate" name="seperate" output="screen">
 
-        <remap from="input" to="/exercise6/voxelgrid"/>
+        <remap from="input" to="contrastedPcl"/>
 
     </node>
 

@@ -16,24 +16,28 @@
         <remap from="output" to="/exercise6/voxelgrid"/>
 
     </node>
-    
+     <node pkg="exercise6" type="contraster" name="contraster" output="screen">
 
-    <node pkg="exercise6" type="find_circ" name="find_blu" output="screen">
+        <remap from="input" to="/exercise6/voxelgrid"/>
+
+	</node>     
+
+    <node pkg="exercise6" type="find_circ" name="find_blu" args="blue" output="screen">
 
         <remap from="input" to="pclB"/>
-        <remap from="filteredBlue" to="/exercise6/circs"/>
+        <remap from="marker" to="/exercise6/circs"/>
 
     </node>
-     <node pkg="exercise6" type="find_circ" name="find_grn" output="screen">
+     <node pkg="exercise6" type="find_circ" name="find_grn"  args="green" output="screen">
 
         <remap from="input" to="pclG"/>
-        <remap from="filteredGreen" to="/exercise6/circs"/>
+        <remap from="marker" to="/exercise6/circs"/>
 
     </node>
-     <node pkg="exercise6" type="find_circ" name="find_red" output="screen">
+     <node pkg="exercise6" type="find_circ" name="find_red" args="red"  output="screen">
 
         <remap from="input" to="pclR"/>
-        <remap from="filteredRed" to="/exercise6/circs"/>
+        <remap from="marker" to="/exercise6/circs"/>
 
 	</node>     
 	<node pkg="exercise6" type="find_cyl" name="find_cyl" output="screen">
