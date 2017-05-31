@@ -61,7 +61,7 @@ catkin_package(
     PCL
 )
 
-add_executable (find_blu src/find_blu.cpp)
+add_executable (find_circ src/find_circ.cpp)
 add_executable (cloud_forwarder src/forwarder.cpp)
 add_executable (cloud_voxelgrid src/voxelgrid.cpp)
 add_executable (find_plane src/find_plane.cpp)

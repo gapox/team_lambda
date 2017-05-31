@@ -10,6 +10,10 @@
 #include <pcl/filters/extract_indices.h>
 #include <visualization_msgs/Marker.h>
 
+
+char *namespaces[]={"undefined","red", "green", "blue", "yellow", "black"};
+int ids[]={0,1,2,3,4,5};
+int thisNode=0;
 ros::Publisher pub;
 void callback(const pcl::PCLPointCloud2ConstPtr& cloud_blob) {
   pcl::PCLPointCloud2::Ptr cloud_filtered_blob (new pcl::PCLPointCloud2);
@@ -39,7 +43,7 @@ void callback(const pcl::PCLPointCloud2ConstPtr& cloud_blob) {
 	if (inliers->indices.size () == 0) return;
 	if(coefficients->values[1]<-0.28 || coefficients->values[1]>-0.08) return;
 	if(sqrt(coefficients->values[1]*coefficients->values[1]+coefficients->values[0]*coefficients->values[0]+coefficients->values[2]*coefficients->values[2])>2) return;//so far away from me
-	printf("BLUE Center: %f, %f, %f\n",coefficients->values[0],coefficients->values[1],coefficients->values[2]);
+	printf("%s Center: %f, %f, %f\n",namespaces[thisNode],coefficients->values[0],coefficients->values[1],coefficients->values[2]);
 	
 	pcl::ExtractIndices<pcl::PointXYZRGB> extract;
 
@@ -56,8 +60,8 @@ void callback(const pcl::PCLPointCloud2ConstPtr& cloud_blob) {
 	visualization_msgs::Marker marker;
 	marker.header.frame_id = "/base_link";
 	marker.header.stamp = ros::Time::now();
-	marker.ns = "BlueMarker";
-	marker.id = 3;
+	marker.ns = namespaces[thisNode];
+	marker.id = ids[thisNode];
 	marker.type = visualization_msgs::Marker::SPHERE;
 	marker.action = visualization_msgs::Marker::ADD;
 	marker.pose.position.x = (double)coefficients->values[2]-0.1;//KOLIKO PRED NJIM
@@ -76,27 +80,43 @@ void callback(const pcl::PCLPointCloud2ConstPtr& cloud_blob) {
 	marker.color.b = 1.0;
 	
 	pub.publish(marker);
-	
 }
 
 
 
 int main (int argc, char** argv) {
 
-  // Initialize ROS
-  ros::init (argc, argv, "find_circ");
-  ros::NodeHandle nh;
+	// Initialize ROS
+	if(argc >1){
+		if(streq(argv[1], "red")==0)
+			thisNode=1;
+		else if(streq(argv[1], "green")==0)
+			thisNode=2;
+		else if(streq(argv[1], "blue")==0)
+			thisNode=3;
+		else if(streq(argv[1], "yellow")==0)
+			thisNode=4;
+		else if(streq(argv[1], "black")==0)
+			thisNode=5;
+		else
+			thisNode=0;
+		printf("Started node! Its color is:%s\n", namespaces[thisNode]);
+	}
+	else
+		thisNode=0;
+	ros::init (argc, argv, "find_circ");
+	ros::NodeHandle nh;
 
-  // Create a ROS subscriber for the input point cloud
-  ros::Subscriber sub = nh.subscribe ("input", 1, callback);
+	// Create a ROS subscriber for the input point cloud
+	ros::Subscriber sub = nh.subscribe ("input", 1, callback);
 
-  // Create a ROS publisher for the output point cloud
-  pub = nh.advertise<visualization_msgs::Marker> ("marker", 1);
+	// Create a ROS publisher for the output point cloud
+	pub = nh.advertise<visualization_msgs::Marker> ("marker", 1);
 
-  
-  ros::Rate r(5);
-  // Spin
-  ros::spin ();
-  
- 
-}
+
+	ros::Rate r(5);
+	// Spin
+	ros::spin ();
+
+
+	}
