@@ -95,11 +95,11 @@ void callback(const pcl::PCLPointCloud2ConstPtr& cloud_blob) {
 	pcl::toPCLPointCloud2(*colorB, *cloud_colorB);
 	pcl::toPCLPointCloud2(*colorY, *cloud_colorY);
 	pcl::toPCLPointCloud2(*colorK, *cloud_colorK);
-	cloud_colorR.frame_id="base_link";
-	cloud_colorG.frame_id="base_link";
-	cloud_colorB.frame_id="base_link";
-	cloud_colorY.frame_id="base_link";
-	cloud_colorK.frame_id="base_link";
+	cloud_colorR->header.frame_id= cloud_blob->header.frame_id;
+	cloud_colorG->header.frame_id= cloud_blob->header.frame_id;
+	cloud_colorB->header.frame_id= cloud_blob->header.frame_id;
+	cloud_colorY->header.frame_id= cloud_blob->header.frame_id;
+	cloud_colorK->header.frame_id= cloud_blob->header.frame_id;
 	pubR.publish(*cloud_colorR);
 	pubG.publish(*cloud_colorG);
 	pubB.publish(*cloud_colorB);

@@ -21,19 +21,19 @@
     <node pkg="exercise6" type="find_blu" name="find_blu" output="screen">
 
         <remap from="input" to="/exercise6/voxelgrid"/>
-        <remap from="filteredBlue" to="/exercise6/find_blu"/>
+        <remap from="filteredBlue" to="/exercise6/circs"/>
 
     </node>
      <node pkg="exercise6" type="find_grn" name="find_grn" output="screen">
 
         <remap from="input" to="/exercise6/voxelgrid"/>
-        <remap from="filteredGreen" to="/exercise6/find_grn"/>
+        <remap from="filteredGreen" to="/exercise6/circs"/>
 
     </node>
      <node pkg="exercise6" type="find_red" name="find_red" output="screen">
 
         <remap from="input" to="/exercise6/voxelgrid"/>
-        <remap from="filteredRed" to="/exercise6/find_red"/>
+        <remap from="filteredRed" to="/exercise6/circs"/>
 
 	</node>     
 	<node pkg="exercise6" type="find_cyl" name="find_cyl" output="screen">

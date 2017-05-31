@@ -43,36 +43,7 @@ void callback(const pcl::PCLPointCloud2ConstPtr& cloud_blob) {
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_outliers (new pcl::PointCloud<pcl::PointXYZRGB>);
 
   // Create the filtering object: downsample the dataset using a leaf size of 1cm
-  pcl::VoxelGrid<pcl::PCLPointCloud2> sor;
-  sor.setInputCloud (cloud_blob);
-  sor.setLeafSize (0.01f, 0.01f, 0.01f);
-  sor.filter (*cloud_filtered_blob);
-	
-  pcl::fromPCLPointCloud2 (*cloud_filtered_blob, *cloud_filtered);
-	
-	pcl::PointCloud<pcl::PointXYZRGB>::iterator b1;
-	int num=0;
-	for (b1 = cloud_filtered->points.begin(); b1 < cloud_filtered->points.end(); b1++){
-		pcl::PointXYZRGB newpoint;
-		newpoint.x = b1->x;
-    	newpoint.y = b1->y;
-    	newpoint.z = b1->z;
-		newpoint.r = b1->r;
-    	newpoint.g = b1->g;
-    	newpoint.b = b1->b;
-		int r, g, b;
-		r=newpoint.r;
-		g=newpoint.g;
-		b=newpoint.b;
-		int label=-1;
-		if(b*0.5>r && b*0.5>g){
-			num++;
-			//printf("BLUE: %d, %d, %d\n",r,g,b);
-			color_filtered->push_back(newpoint);
-		}
-	}
-	cloud_filtered->points=color_filtered->points;
-	cloud_filtered->width=num;
+  pcl::fromPCLPointCloud2 (*cloud_blob, *cloud_filtered);
 	
 	pcl::ModelCoefficients::Ptr coefficients (new pcl::ModelCoefficients ());
 	pcl::PointIndices::Ptr inliers (new pcl::PointIndices ());
@@ -138,14 +109,14 @@ void callback(const pcl::PCLPointCloud2ConstPtr& cloud_blob) {
 int main (int argc, char** argv) {
 
   // Initialize ROS
-  ros::init (argc, argv, "find_blu");
+  ros::init (argc, argv, "find_circ");
   ros::NodeHandle nh;
 
   // Create a ROS subscriber for the input point cloud
   ros::Subscriber sub = nh.subscribe ("input", 1, callback);
 
   // Create a ROS publisher for the output point cloud
-  pub = nh.advertise<visualization_msgs::Marker> ("filteredBlue", 1);
+  pub = nh.advertise<visualization_msgs::Marker> ("marker", 1);
 
   
   ros::Rate r(5);

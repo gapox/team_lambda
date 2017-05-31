@@ -57,12 +57,8 @@ void callback(const pcl::PCLPointCloud2ConstPtr& cloud_blob) {
 	pcl::PCLPointCloud2::Ptr cloud_colorK (new pcl::PCLPointCloud2);
 
 	// Create the filtering object: downsample the dataset using a leaf size of 1cm
-	pcl::VoxelGrid<pcl::PCLPointCloud2> sor;
-	sor.setInputCloud (cloud_blob);
-	sor.setLeafSize (0.01f, 0.01f, 0.01f);
-	sor.filter (*cloud_filtered_blob);
 
-	pcl::fromPCLPointCloud2 (*cloud_filtered_blob, *cloud_filtered);
+	pcl::fromPCLPointCloud2 (*cloud_blob, *cloud_filtered);
 
 	pcl::PointCloud<pcl::PointXYZRGB>::iterator b1;
 	for (b1 = cloud_filtered->points.begin(); b1 < cloud_filtered->points.end(); b1++){
@@ -95,11 +91,11 @@ void callback(const pcl::PCLPointCloud2ConstPtr& cloud_blob) {
 	pcl::toPCLPointCloud2(*colorB, *cloud_colorB);
 	pcl::toPCLPointCloud2(*colorY, *cloud_colorY);
 	pcl::toPCLPointCloud2(*colorK, *cloud_colorK);
-	cloud_colorR->frame_id="base_link";
-	cloud_colorG->frame_id="base_link";
-	cloud_colorB->frame_id="base_link";
-	cloud_colorY->frame_id="base_link";
-	cloud_colorK->frame_id="base_link";
+	cloud_colorR->header.frame_id= cloud_blob->header.frame_id;
+	cloud_colorG->header.frame_id= cloud_blob->header.frame_id;
+	cloud_colorB->header.frame_id= cloud_blob->header.frame_id;
+	cloud_colorY->header.frame_id= cloud_blob->header.frame_id;
+	cloud_colorK->header.frame_id= cloud_blob->header.frame_id;
 	pubR.publish(*cloud_colorR);
 	pubG.publish(*cloud_colorG);
 	pubB.publish(*cloud_colorB);

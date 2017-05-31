@@ -92,7 +92,7 @@ void callback(const pcl::PCLPointCloud2ConstPtr& cloud_blob) {
 
 	if (inliers->indices.size () == 0) return;
 	if(coefficients->values[1]<-0.28 || coefficients->values[1]>-0.08) return;
-	if(sqrt(coefficients->values[1]*coefficients->values[1]+coefficients->values[0]*coefficients->values[0]+coefficients->values[2]*coefficients->values[2])>3)return;//so far away from me
+	if(sqrt(coefficients->values[1]*coefficients->values[1]+coefficients->values[0]*coefficients->values[0]+coefficients->values[2]*coefficients->values[2])>2) return;//so far away from me
 	printf("BLUE Center: %f, %f, %f\n",coefficients->values[0],coefficients->values[1],coefficients->values[2]);
 	
 	pcl::ExtractIndices<pcl::PointXYZRGB> extract;
